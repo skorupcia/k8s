@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuard
+  labels:
+    run: kuard
+spec:
+  selector:
+    matchLabels:
+      run: kuard
+  replicas: 8
+  template:
+    metadata:
+      labels:
+        run: kuard
+      annotations:
+        kubernetes.io/change-cause: "Update to kuard green"
+    spec:
+      containers:
+      - name: kuard
+        image: "gcr.io/kuar-demo/kuard-arm64:green"
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 100%
